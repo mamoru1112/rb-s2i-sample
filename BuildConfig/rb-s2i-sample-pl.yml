@@ -1,0 +1,45 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: null
+  labels:
+    app: sample-service-pl
+  name: sample-service-pl
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: sample-service-pl:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: App/SampleService/sample-service-pl
+    git:
+      uri: https://github.com/mamoru1112/rb-s2i-sample.git
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: eap72-openshift:latest
+        namespace: openshift
+      scripts: https://raw.githubusercontent.com/mamoru1112/rb-s2i-sample/master/App/s2i_commons/pl/s2i
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - github:
+      secret: ZdkuqQrqd3OSCnVBGuy9
+    type: GitHub
+  - generic:
+      secret: _3l9acjMQcgtwH7ub84M
+    type: Generic
+  - type: ConfigChange
+  - imageChange: {}
+    type: ImageChange
+status:
+  lastVersion: 0
